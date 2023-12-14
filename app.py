@@ -44,3 +44,12 @@ def update(request: Request, todo_id: int, db: Session = Depends(get_db)):
 
     url = app.url_path_for("read")
     return RedirectResponse(url=url, status_code=status.HTTP_302_FOUND)
+
+@app.get("/delete/{todo_id}")
+def delete(request: Request, todo_id: int, db: Session = Depends(get_db)):
+    todo = db.query(models.Todo).filter(models.Todo.id == todo_id).first()
+    db.delete(todo)
+    db.commit()
+
+    url = app.url_path_for("read")
+    return RedirectResponse(url=url, status_code=status.HTTP_302_FOUND)
