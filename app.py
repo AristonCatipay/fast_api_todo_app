@@ -4,6 +4,7 @@ from starlette.responses import RedirectResponse
 from starlette.templating import Jinja2Templates
 
 from sqlalchemy.orm import Session
+
 import models
 from database import SessionLocal, engine
 
