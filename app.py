@@ -26,3 +26,12 @@ def read(request: Request, db: Session = Depends(get_db)):
     todo = db.query(models.Todo).all()
     return templates.TemplateResponse("base.html",
                                       {"request": request, "todo_list": todo})
+
+@app.post("/add")
+def create(request: Request, title: str = Form(...), db: Session = Depends(get_db)):
+    new_todo = models.Todo(title=title)
+    db.add(new_todo)
+    db.commit()
+
+    url = app.url_path_for("read")
+    return RedirectResponse(url=url, status_code=status.HTTP_303_SEE_OTHER)
