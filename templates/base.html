@@ -3,30 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.css"  rel="stylesheet"/>
+
+    <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
-    <div>
-        <!-- Add todo -->
-        <form action="/add" method="post">
-            <label>To do</label>
-            <input type="text" name="title" placeholder="Enter todo...">
-            <button type="submit">Submit</button>
-        </form>
-        {% for todo in todo_list %}
-            <div>
-                <p>{{ todo.id }} | {{ todo.title}}</p>
-
-                {% if todo.complete == False %}
-                    <span>Not Complete</span>
-                {% else %}
-                    <span>Complete</span>
-                {% endif %}
-                
-                <a href="/update/{{ todo.id }}">Update</a>
-                <a href="/delete/{{ todo.id }}">Delete</a>
-            </div>
-        {% endfor %}
-    </div>
+    {% block content %} 
+    {% endblock %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
 </body>
 </html>

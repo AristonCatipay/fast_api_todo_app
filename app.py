@@ -25,7 +25,7 @@ def get_db():
 @app.get("/")
 def read(request: Request, db: Session = Depends(get_db)):
     todo = db.query(models.Todo).all()
-    return templates.TemplateResponse("base.html",
+    return templates.TemplateResponse("home.html",
                                       {"request": request, "todo_list": todo})
 
 @app.post("/add")
