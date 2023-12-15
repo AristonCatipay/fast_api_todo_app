@@ -10,19 +10,55 @@
     </form>
 </div>
 <div>
-    {% for todo in todo_list %}
-        <div>
-            <p>{{ todo.id }} | {{ todo.title}}</p>
-
-            {% if todo.complete == False %}
-                <span>Not Complete</span>
-            {% else %}
-                <span>Complete</span>
-            {% endif %}
-            
-            <a href="/update/{{ todo.id }}">Update</a>
-            <a href="/delete/{{ todo.id }}">Delete</a>
+    <div class="flex flex-wrap">
+        {% for todo in todo_list %}
+        <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <a href="#">
+                <div class="p-6 rounded-b-lg">
+                    <h2 class="text-xl font-medium text-gray-900 dark:text-white">{{ todo.title}}</h2>
+                    <label class="relative inline-flex items-center mb-5 cursor-pointer">
+                        <input type="checkbox" value="" class="sr-only peer" {% if todo.complete %} checked {% endif %}>
+                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:w-5 after:h-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"
+                            onclick="updateTodo('{{ todo.id }}')">
+                        </div>
+                        <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">{% if todo.complete %} Completed {% else %} Not Complete {% endif %}</span>
+                    </label>
+                    
+                    <a id="updateLink_{{ todo.id }}" href="/update/{{ todo.id }}" class="hidden"></a>
+                    <button id="dropdownButton" data-dropdown-toggle="dropdown_{{todo.id}}" class="inline-block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5" type="button">
+                        <span class="sr-only">Open dropdown</span>
+                        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                            <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                              <path d="M19 11V9a1 1 0 0 0-1-1h-.757l-.707-1.707.535-.536a1 1 0 0 0 0-1.414l-1.414-1.414a1 1 0 0 0-1.414 0l-.536.535L12 2.757V2a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v.757l-1.707.707-.536-.535a1 1 0 0 0-1.414 0L2.929 4.343a1 1 0 0 0 0 1.414l.536.536L2.757 8H2a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h.757l.707 1.707-.535.536a1 1 0 0 0 0 1.414l1.414 1.414a1 1 0 0 0 1.414 0l.536-.535L8 17.243V18a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-.757l1.707-.708.536.536a1 1 0 0 0 1.414 0l1.414-1.414a1 1 0 0 0 0-1.414l-.535-.536.707-1.707H18a1 1 0 0 0 1-1Z"/>
+                              <path d="M10 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+                            </g>
+                        </svg>
+                    </button>
+                    <!-- Dropdown menu -->
+                    <div id="dropdown_{{todo.id}}" class="z-10 hidden text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                        <ul class="py-2" aria-labelledby="dropdownButton">
+                            <li>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Edit</a>
+                            </li>
+                            <li>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Export Data</a>
+                            </li>
+                            <li>
+                                <a href="/delete/{{ todo.id }}" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </a>
         </div>
-    {% endfor %}
+        {% endfor %}
+    </div>
 </div>
+<script>
+    function updateTodo(todoId) {
+        const updateLinkId = `updateLink_${todoId}`;
+        const updateLink = document.getElementById(updateLinkId);
+        updateLink.click();
+    }
+</script>
 {% endblock %}
